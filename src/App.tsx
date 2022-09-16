@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Table} from "./components/Table";
+import {ButtonBox} from "./components/ButtonBox";
 
 export type initialStateType = {
     name: string
@@ -14,6 +15,10 @@ function App() {
         {name: "Dmitry", points: 5},
         {name: "Alexey", points: 4},
     ])
+
+    const [currentName, setCurrentName] = useState("")
+    const [currentPoints, setCurrentPoints] = useState("")
+
 
     const AddNewValueToRows = (name: string, points: number) => {
         setTableRows([...tableRows, {name, points}])
@@ -34,8 +39,19 @@ function App() {
         <div>
             <Table
                 tableRows={tableRows}
+                currentName={currentName}
+                setCurrentName={setCurrentName}
+                currentPoints={currentPoints}
+                setCurrentPoints={setCurrentPoints}
+            />
+            <ButtonBox
+                setCurrentName={setCurrentName}
+                setCurrentPoints={setCurrentPoints}
                 AddNewValueToRows={AddNewValueToRows}
+                currentName={currentName}
+                currentPoints={currentPoints}
                 PreviousValueRows={PreviousValueRows}
+                tableRows={tableRows}
                 ClearTableRows={ClearTableRows}
             />
         </div>

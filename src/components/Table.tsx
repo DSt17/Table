@@ -1,24 +1,17 @@
-import React, {useState} from "react";
-import {Row} from "./Row";
+import React from "react";
 import {initialStateType} from "../App";
 
 import s from "./table.module.css"
 
 type TablePropsType = {
     tableRows: Array<initialStateType>
-    AddNewValueToRows: (name: string, points: number) => void
-    PreviousValueRows: (state: initialStateType[]) => void
-    ClearTableRows: () => void
+    currentName: string
+    setCurrentName: (value: string) => void
+    currentPoints: string
+    setCurrentPoints: (value: string) => void
 }
 
-
 const TableNoMemoized = (props: TablePropsType) => {
-
-    console.log("TABLE")
-
-    const [CurrentName, setCurrentName] = useState("")
-    const [CurrentPoints, setCurrentPoints] = useState("")
-
 
     return (
         <div className={s.tableBox}>
@@ -29,44 +22,31 @@ const TableNoMemoized = (props: TablePropsType) => {
                 </tr>
                 {
                     props.tableRows.map(el =>
-                        <Row
-                            name={el.name}
-                            points={el.points}
-                        />
+                        <tr>
+                            <td>{el.name}</td>
+                            <td>{el.points}</td>
+                        </tr>
                     )
                 }
                 <tr>
                     <td>
                         <input
                             placeholder={"enter student name.."}
-                            value={CurrentName}
+                            value={props.currentName}
                             onChange={(e) => {
-                                setCurrentName(e.currentTarget.value)
+                                props.setCurrentName(e.currentTarget.value)
                             }}/>
                     </td>
                     <td>
                         <input
                             placeholder={"enter points.."}
-                            value={CurrentPoints}
+                            value={props.currentPoints}
                             onChange={(e) => {
-                                setCurrentPoints(e.currentTarget.value)
+                                props.setCurrentPoints(e.currentTarget.value)
                             }}/>
                     </td>
                 </tr>
             </table>
-            <div>
-                <button onClick={() => {
-                    props.AddNewValueToRows(CurrentName, Number(CurrentPoints))
-                    setCurrentName('')
-                    setCurrentPoints('')
-                }
-                }
-
-                >Add
-                </button>
-                <button onClick={() => props.PreviousValueRows(props.tableRows)}>PreviousValue</button>
-                <button onClick={() => props.ClearTableRows()}>CLear table</button>
-            </div>
         </div>
 
 
