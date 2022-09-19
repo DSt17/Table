@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {initialStateType} from "../App";
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from "@mui/material";
 
@@ -11,6 +11,9 @@ type TablePropsType = {
 }
 
 export const StudentsTable = (props: TablePropsType) => {
+
+    const [label, setLabel] = useState("Enter student's name..")
+
     return (
         <TableContainer>
             <Table sx={{'&:last-child td': {padding: "5px", textAlign: "center"}}}>
@@ -30,12 +33,16 @@ export const StudentsTable = (props: TablePropsType) => {
                     }
                     <TableRow>
                         <TableCell>
-                            <TextField id="outlined-basic" label="enter student name.." variant="outlined"
+                            <TextField id="outlined-basic" label={label} variant="outlined"
                                        size={"small"}
+                                       color={label === "Enter student's name.." ? "primary" : "error"}
                                        value={props.currentName}
                                        onChange={(e) => {
                                            if (!Number(e.currentTarget.value)) {
                                                props.setCurrentName(e.currentTarget.value)
+                                               setLabel("Enter student's name..")
+                                           } else {
+                                               setLabel("Incorrect value!")
                                            }
                                        }}/>
                         </TableCell>
