@@ -1,7 +1,6 @@
 import React from "react";
 import {initialStateType} from "../App";
-
-import s from "./table.module.css"
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField} from "@mui/material";
 
 type TablePropsType = {
     tableRows: Array<initialStateType>
@@ -11,45 +10,48 @@ type TablePropsType = {
     setCurrentPoints: (value: string) => void
 }
 
-const TableNoMemoized = (props: TablePropsType) => {
-
+export const StudentsTable = (props: TablePropsType) => {
     return (
-        <div className={s.tableBox}>
-            <table>
-                <tr>
-                    <th>student's name</th>
-                    <th>points</th>
-                </tr>
-                {
-                    props.tableRows.map(el =>
-                        <tr>
-                            <td>{el.name}</td>
-                            <td>{el.points}</td>
-                        </tr>
+        <TableContainer>
+            <Table sx={{'&:last-child td': {padding: "5px", textAlign: "center"}}}>
+                <TableHead>
+                    <TableRow sx={{'&:last-child th': {padding: "5px", textAlign: "center", fontWeight: "bold"}}}>
+                        <TableCell>Student's name</TableCell>
+                        <TableCell>Points</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {props.tableRows.map(el =>
+                        <TableRow key={el.id}>
+                            <TableCell>{el.name}</TableCell>
+                            <TableCell>{el.points}</TableCell>
+                        </TableRow>
                     )
-                }
-                <tr>
-                    <td>
-                        <input
-                            placeholder={"enter student name.."}
-                            value={props.currentName}
-                            onChange={(e) => {
-                                props.setCurrentName(e.currentTarget.value)
-                            }}/>
-                    </td>
-                    <td>
-                        <input
-                            placeholder={"enter points.."}
-                            value={props.currentPoints}
-                            onChange={(e) => {
-                                props.setCurrentPoints(e.currentTarget.value)
-                            }}/>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+                    }
+                    <TableRow>
+                        <TableCell>
+                            <TextField id="outlined-basic" label="enter student name.." variant="outlined"
+                                       size={"small"}
+                                       value={props.currentName}
+                                       onChange={(e) => {
+                                           if (!Number(e.currentTarget.value)) {
+                                               props.setCurrentName(e.currentTarget.value)
+                                           }
+                                       }}/>
+                        </TableCell>
+                        <TableCell>
+                            <TextField id="outlined-basic" label="enter points..(number)" variant="outlined"
+                                       size={"small"}
+                                       type={"number"}
+                                       value={props.currentPoints}
+                                       onChange={(e) => {
+                                           props.setCurrentPoints(e.currentTarget.value)
+                                       }}/>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
 
     )
 }
-export const Table = React.memo(TableNoMemoized)
